@@ -31,6 +31,8 @@ class GpgSignatoryIT extends Specification {
 
       gpgSignatory.sign(getClass().getResourceAsStream("/payload.txt"), signatureStream)
 
+      println("Wrote signature: ${signatureFile.text}")
+
       ProcessBuilder gpgProcessBuilder = new ProcessBuilder("gpg", "--verify", signatureFile.getAbsolutePath(), payload.getPath())
         .redirectErrorStream(true)
 
