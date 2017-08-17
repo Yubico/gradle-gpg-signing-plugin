@@ -19,6 +19,7 @@ dependencies {
 
 }
 
+group = 'com.yubico.gradle'
 version = '0.1.0'
 
 task wrapper(type: Wrapper) {
