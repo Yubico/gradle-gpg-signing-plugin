@@ -46,7 +46,12 @@ class GpgSignatory extends SignatorySupport {
 
             Process gpgProcess = gpgProcessBuilder.start();
             IOUtils.copy(toSign, gpgProcess.getOutputStream());
-            gpgProcess.getOutputStream().close();
+
+            try {
+                gpgProcess.getOutputStream().close();
+            } catch (IOException e) {
+                logger.warn("Failed to close gpg process STDIN stream", e);
+            }
 
             gpgProcess.waitFor();
 
