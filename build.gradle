@@ -17,6 +17,17 @@ repositories {
   mavenCentral()
 }
 
+sourceSets {
+  main {
+    java {
+      srcDirs = []
+    }
+    groovy {
+      srcDir 'src/main/java'
+    }
+  }
+}
+
 dependencies {
 
   compile(
