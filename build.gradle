@@ -9,6 +9,7 @@ buildscript {
 }
 plugins {
   id 'java-gradle-plugin'
+  id 'com.github.kt3k.coveralls' version '2.8.1'
 }
 apply plugin: 'groovy'
 apply plugin: 'info.solidsoft.pitest'
@@ -66,4 +67,11 @@ pitest {
   testSourceSets = [ sourceSets.test, sourceSets.integTest ]
   timestampedReports = false
   outputFormats = ['XML', 'HTML']
+}
+
+coveralls {
+  sourceDirs = subprojects.sourceSets.main.allSource.srcDirs.flatten()
+}
+tasks.coveralls {
+  inputs.files tasks.pitest.outputs.files
 }
