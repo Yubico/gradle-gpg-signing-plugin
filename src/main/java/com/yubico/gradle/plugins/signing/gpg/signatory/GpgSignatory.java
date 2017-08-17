@@ -53,10 +53,12 @@ class GpgSignatory extends SignatorySupport {
             if (gpgProcess.exitValue() == 0) {
                 IOUtils.copy(gpgProcess.getInputStream(), destination);
             } else {
+                final String stdout = IOUtils.toString(gpgProcess.getInputStream(), "UTF-8");
+                final String stderr = IOUtils.toString(gpgProcess.getErrorStream(), "UTF-8");
                 logger.error("gpg process failed with exit code: {}.", gpgProcess.exitValue());
-                logger.error("STDOUT: [{}]", IOUtils.toString(gpgProcess.getInputStream(), "UTF-8"));
-                logger.error("STDERR: [{}]", IOUtils.toString(gpgProcess.getErrorStream(), "UTF-8"));
-                throw new IOException("gpg process failed with exit code: " + gpgProcess.exitValue() + ". STDOUT: [" + IOUtils.toString(gpgProcess.getInputStream()) + "], STDERR: [" + IOUtils.toString(gpgProcess.getErrorStream()) + "]");
+                logger.error("STDOUT: [{}]", stdout);
+                logger.error("STDERR: [{}]", stderr);
+                throw new IOException("gpg process failed with exit code: " + gpgProcess.exitValue() + ". STDOUT: [" + stdout + "], STDERR: [" + stderr + "]");
             }
 
         } catch (IOException|InterruptedException e) {
