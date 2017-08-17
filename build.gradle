@@ -1,3 +1,6 @@
+plugins {
+  id 'java-gradle-plugin'
+}
 apply plugin: 'groovy'
 
 repositories {
@@ -7,7 +10,6 @@ repositories {
 dependencies {
 
   compile(
-    gradleApi(),
     'commons-io:commons-io:2.5',
   )
 
