@@ -17,6 +17,15 @@ repositories {
   mavenCentral()
 }
 
+sourceSets {
+  integTest
+}
+
+configurations {
+  integTestCompile.extendsFrom testCompile
+  integTestRuntime.extendsFrom testRuntime
+}
+
 dependencies {
 
   compile(
@@ -26,6 +35,13 @@ dependencies {
   testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
     exclude group: 'org.codehaus.groovy'
   }
+  testCompile(
+    'org.codehaus.groovy:groovy-all:2.4.11'
+  )
+
+  integTestCompile(
+    sourceSets.main.output,
+  )
 
 }
 
@@ -36,7 +52,18 @@ task wrapper(type: Wrapper) {
   gradleVersion = '4.1'
 }
 
+task integTest(type: Test) {
+  testClassesDirs = sourceSets.integTest.output.classesDirs
+  classpath = sourceSets.integTest.runtimeClasspath
+
+  shouldRunAfter test
+
+  reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+check.dependsOn integTest
+
 pitest {
+  testSourceSets = [ sourceSets.test, sourceSets.integTest ]
   timestampedReports = false
   outputFormats = ['XML', 'HTML']
 }
