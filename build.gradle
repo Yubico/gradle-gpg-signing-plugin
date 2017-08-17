@@ -17,17 +17,6 @@ repositories {
   mavenCentral()
 }
 
-sourceSets {
-  main {
-    java {
-      srcDirs = []
-    }
-    groovy {
-      srcDir 'src/main/java'
-    }
-  }
-}
-
 dependencies {
 
   compile(
@@ -48,8 +37,6 @@ task wrapper(type: Wrapper) {
 }
 
 pitest {
-  additionalMutableCodePaths = sourceSets.main.output.classesDirs as Set
-
   timestampedReports = false
   outputFormats = ['XML', 'HTML']
 }
