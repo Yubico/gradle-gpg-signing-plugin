@@ -1,5 +1,4 @@
 language: java
-script: ./gradlew check --stacktrace --info
 after_success:
   - ./gradlew coveralls
 
