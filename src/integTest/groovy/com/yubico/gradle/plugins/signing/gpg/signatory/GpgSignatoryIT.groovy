@@ -9,10 +9,34 @@ import spock.lang.Specification
 
 class GpgSignatoryIT extends Specification {
 
-  private static final String KEY_ID = "B84D477DA20D6764"
+  private static final String KEY_ID = "test@test.org"
 
   @Rule
   public final TemporaryFolder tmpDir = new TemporaryFolder();
+
+  private File gnupgHome;
+
+  def setup() {
+    gnupgHome = tmpDir.newFolder("gnupg")
+
+    ProcessBuilder gpgProcessBuilder = new ProcessBuilder(
+      "gpg",
+      "--batch",
+      "--passphrase", "",
+      "--pinentry-mode", "loopback",
+      "--quick-gen-key", "test@test.org"
+    )
+    gpgProcessBuilder.redirectErrorStream(true)
+    gpgProcessBuilder.environment().put("GNUPGHOME", gnupgHome.absolutePath)
+
+    Process gpgProcess = gpgProcessBuilder.start()
+    IOUtils.copy(getClass().getResourceAsStream("/genkey.gpgbatch"), gpgProcess.getOutputStream())
+    gpgProcess.getOutputStream().close()
+    gpgProcess.waitFor()
+
+    println("gpg initialization exit code: ${gpgProcess.exitValue()}, output: ${gpgProcess.getInputStream().text}")
+    println("Initialized GNUPGHOME in ${gnupgHome.absolutePath}")
+  }
 
   def 'Signature is written correctly.'() {
     when:
@@ -22,21 +46,19 @@ class GpgSignatoryIT extends Specification {
       println("Writing signature to: ${signatureFile}")
       println("Payload in: ${payload.getPath()}")
       println("Payload: ${payload.openStream().text}")
-      println("Using GNUPGHOME in: ${getClass().getResource("/gnupg").getPath()}")
+      println("Using GNUPGHOME in: ${gnupgHome.absolutePath}")
 
-      Signatory gpgSignatory = new GpgSignatory(KEY_ID, new File(getClass().getResource("/gnupg").toURI()));
+      Signatory gpgSignatory = new GpgSignatory(KEY_ID, gnupgHome);
 
 
       OutputStream signatureStream = new FileOutputStream(signatureFile)
 
       gpgSignatory.sign(getClass().getResourceAsStream("/payload.txt"), signatureStream)
 
-      println("Wrote signature: ${signatureFile.text}")
-
       ProcessBuilder gpgProcessBuilder = new ProcessBuilder("gpg", "--verify", signatureFile.getAbsolutePath(), payload.getPath())
         .redirectErrorStream(true)
 
-      gpgProcessBuilder.environment().put("GNUPGHOME", getClass().getResource("/gnupg").getPath())
+      gpgProcessBuilder.environment().put("GNUPGHOME", gnupgHome.absolutePath)
 
       Process gpgProcess = gpgProcessBuilder.start()
       gpgProcess.waitFor()
@@ -44,7 +66,7 @@ class GpgSignatoryIT extends Specification {
       String gpgOutput = IOUtils.toString(gpgProcess.getInputStream(), "UTF-8")
 
     then:
-      gpgOutput.contains('Good signature from "Test Testsson <test@test.org>"')
+      gpgOutput.contains('Good signature from "test@test.org"')
   }
 
 }
