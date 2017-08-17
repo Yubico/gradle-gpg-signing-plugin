@@ -31,7 +31,12 @@ class GpgSignatoryIT extends Specification {
 
     Process gpgProcess = gpgProcessBuilder.start()
     IOUtils.copy(getClass().getResourceAsStream("/genkey.gpgbatch"), gpgProcess.getOutputStream())
-    gpgProcess.getOutputStream().close()
+    try {
+      gpgProcess.getOutputStream().close()
+    } catch (IOException e) {
+      // Ignore
+    }
+
     gpgProcess.waitFor()
 
     println("gpg initialization exit code: ${gpgProcess.exitValue()}, output: ${gpgProcess.getInputStream().text}")
