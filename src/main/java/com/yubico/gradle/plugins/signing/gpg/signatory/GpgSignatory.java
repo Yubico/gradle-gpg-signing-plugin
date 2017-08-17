@@ -12,7 +12,7 @@ class GpgSignatory extends SignatorySupport {
     private final String keyId;
 
     public GpgSignatory(String keyId) {
-        if (keyId == null) {
+        if (keyId == null || keyId.isEmpty()) {
             throw new IllegalArgumentException("keyId must not be null.");
         }
         this.keyId = keyId;
