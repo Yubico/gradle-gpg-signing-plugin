@@ -1,0 +1,16 @@
+apply plugin: 'groovy'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+
+  compile(
+    gradleApi(),
+    'commons-io:commons-io:2.5',
+  )
+
+}
+
+version = '0.1.0'
