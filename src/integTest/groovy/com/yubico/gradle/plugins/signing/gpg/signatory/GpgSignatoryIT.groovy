@@ -32,9 +32,6 @@ class GpgSignatoryIT extends Specification {
     }
 
     gpgProcess.waitFor()
-
-    println("gpg initialization exit code: ${gpgProcess.exitValue()}, output: ${gpgProcess.getInputStream().text}")
-    println("Initialized GNUPGHOME in ${gnupgHome.absolutePath}")
   }
 
   def 'Signature is written correctly.'() {
@@ -42,13 +39,7 @@ class GpgSignatoryIT extends Specification {
       URL payload = getClass().getResource("/payload.txt")
       File signatureFile = tmpDir.newFile("payload.txt.sig")
 
-      println("Writing signature to: ${signatureFile}")
-      println("Payload in: ${payload.getPath()}")
-      println("Payload: ${payload.openStream().text}")
-      println("Using GNUPGHOME in: ${gnupgHome.absolutePath}")
-
       Signatory gpgSignatory = new GpgSignatory(KEY_ID, gnupgHome);
-
 
       OutputStream signatureStream = new FileOutputStream(signatureFile)
 
