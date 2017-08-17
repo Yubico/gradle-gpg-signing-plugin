@@ -13,6 +13,10 @@ dependencies {
     'commons-io:commons-io:2.5',
   )
 
+  testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
+    exclude group: 'org.codehaus.groovy'
+  }
+
 }
 
 version = '0.1.0'
