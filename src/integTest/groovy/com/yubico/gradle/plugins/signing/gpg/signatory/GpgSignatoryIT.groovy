@@ -19,13 +19,7 @@ class GpgSignatoryIT extends Specification {
   def setup() {
     gnupgHome = tmpDir.newFolder("gnupg")
 
-    ProcessBuilder gpgProcessBuilder = new ProcessBuilder(
-      "gpg",
-      "--batch",
-      "--passphrase", "",
-      "--pinentry-mode", "loopback",
-      "--gen-key",
-    )
+    ProcessBuilder gpgProcessBuilder = new ProcessBuilder("gpg", "--batch", "--gen-key")
     gpgProcessBuilder.redirectErrorStream(true)
     gpgProcessBuilder.environment().put("GNUPGHOME", gnupgHome.absolutePath)
 
