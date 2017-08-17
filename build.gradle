@@ -1,7 +1,17 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.11'
+  }
+}
 plugins {
   id 'java-gradle-plugin'
 }
 apply plugin: 'groovy'
+apply plugin: 'info.solidsoft.pitest'
 
 repositories {
   mavenCentral()
@@ -24,4 +34,11 @@ version = '0.1.0'
 
 task wrapper(type: Wrapper) {
   gradleVersion = '4.1'
+}
+
+pitest {
+  additionalMutableCodePaths = sourceSets.main.output.classesDirs as Set
+
+  timestampedReports = false
+  outputFormats = ['XML', 'HTML']
 }
