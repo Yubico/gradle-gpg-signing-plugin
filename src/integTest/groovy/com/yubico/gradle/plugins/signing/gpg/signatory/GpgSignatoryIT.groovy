@@ -24,7 +24,7 @@ class GpgSignatoryIT extends Specification {
       "--batch",
       "--passphrase", "",
       "--pinentry-mode", "loopback",
-      "--quick-gen-key", "test@test.org"
+      "--gen-key",
     )
     gpgProcessBuilder.redirectErrorStream(true)
     gpgProcessBuilder.environment().put("GNUPGHOME", gnupgHome.absolutePath)
@@ -66,7 +66,7 @@ class GpgSignatoryIT extends Specification {
       String gpgOutput = IOUtils.toString(gpgProcess.getInputStream(), "UTF-8")
 
     then:
-      gpgOutput.contains('Good signature from "test@test.org"')
+      gpgOutput.contains('Good signature from "Test Testsson <test@test.org>"')
   }
 
 }

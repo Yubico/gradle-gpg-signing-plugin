@@ -1,6 +1,11 @@
 Key-Type: RSA
+%no-ask-passphrase
+%no-protection
+%transient-key
 Key-Length: 1024
 Key-Usage: sign
 Subkey-Type: RSA
 Subkey-Length: 1024
 Subkey-Usage: sign
+Name-Real: Test Testsson
+Name-Email: test@test.org
