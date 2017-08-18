@@ -69,10 +69,6 @@ pitest {
   outputFormats = ['XML', 'HTML']
 }
 
-tasks.withType(Test) {
-  testLogging.showStandardStreams = true
-}
-
 coveralls {
   sourceDirs = subprojects.sourceSets.main.allSource.srcDirs.flatten()
 }
