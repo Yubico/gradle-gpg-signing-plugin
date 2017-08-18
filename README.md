@@ -27,7 +27,7 @@ to work.
 Usage
 -----
 
-The plugin is currently pre-alpha and not available in public repositories just
+The plugin is currently in alpha and not available in public repositories just
 yet. For now, you can install it in your build by cloning and building this
 repository, and including the jar in your build classpath like so:
 
