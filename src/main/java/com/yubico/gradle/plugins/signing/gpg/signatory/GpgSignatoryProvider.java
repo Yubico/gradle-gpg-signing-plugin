@@ -13,7 +13,7 @@ public class GpgSignatoryProvider implements SignatoryProvider<GpgSignatory> {
 
     @Override
     public void configure(SigningExtension settings, Closure closure) {
-        logger.debug("configure(${settings}, ${closure}");
+        logger.debug("configure({}, {}", settings, closure);
     }
 
     @Override
