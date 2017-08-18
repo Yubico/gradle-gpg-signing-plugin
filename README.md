@@ -2,6 +2,7 @@ gradle-gpg-signing-plugin
 =========================
 
 [![Build Status](https://travis-ci.org/Yubico/gradle-gpg-signing-plugin.svg?branch=master)](https://travis-ci.org/Yubico/gradle-gpg-signing-plugin)
+[![Coverage Status](https://coveralls.io/repos/github/Yubico/gradle-gpg-signing-plugin/badge.svg)](https://coveralls.io/github/Yubico/gradle-gpg-signing-plugin)
 
 This plugin sets up Gradle's [Signing plugin][signing] to use `gpg` as the
 signing backend. Thus key management is delegated to `gpg`, which unlocks
