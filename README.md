@@ -54,7 +54,10 @@ appended with a `!` to force `gpg` to use a specific subkey if needed.
 
 That's it! Now just follow the instructions for the [Signing plugin][signing],
 except ignoring setting `signing.password` and `signing.secretKeyRingFile`, and
-you should be good to go.
+you should be good to go. If this worked for you, please give a thumbs up in #1
+to help us get a sense of how well this works. If it does not work, please [open
+an issue][new-issue] and tell us!
 
 
+[new-issue]: https://github.com/Yubico/gradle-gpg-signing-plugin/issues/new
 [signing-credentials]: https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials
