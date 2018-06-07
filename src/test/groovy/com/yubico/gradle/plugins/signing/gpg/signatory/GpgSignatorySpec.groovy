@@ -23,4 +23,9 @@ class GpgSignatorySpec extends Specification {
       new GpgSignatory('C001C0DE').name == 'C001C0DE'
   }
 
+  def 'getKeyId() returns the keyId.'() {
+    expect:
+    new GpgSignatory('C001C0DE').keyId == 'C001C0DE'
+  }
+
 }

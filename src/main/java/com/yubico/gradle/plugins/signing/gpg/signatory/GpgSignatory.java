@@ -30,6 +30,11 @@ class GpgSignatory extends SignatorySupport {
     }
 
     @Override
+    public String getKeyId() {
+        return keyId;
+    }
+
+    @Override
     public String getName() {
         return keyId;
     }
