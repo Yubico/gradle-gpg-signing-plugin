@@ -29,16 +29,9 @@ configurations {
 
 dependencies {
 
-  compile(
-    'commons-io:commons-io:2.5',
-  )
-
   testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
     exclude group: 'org.codehaus.groovy'
   }
-  testCompile(
-    'org.codehaus.groovy:groovy-all:2.4.11'
-  )
 
   integTestCompile(
     sourceSets.main.output,
@@ -50,7 +43,7 @@ group = 'com.yubico.gradle'
 version = '0.1.0-alpha1'
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '4.1'
+  gradleVersion = '4.5'
 }
 
 task integTest(type: Test) {

@@ -1,7 +1,8 @@
 package com.yubico.gradle.plugins.signing.gpg.signatory
 
-import org.apache.commons.io.IOUtils
-import org.gradle.plugins.ide.eclipse.model.Output
+import static com.yubico.gradle.plugins.signing.gpg.signatory.GpgSignatory.copy
+import static com.yubico.gradle.plugins.signing.gpg.signatory.GpgSignatory.toString
+
 import org.gradle.plugins.signing.signatory.Signatory
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -24,7 +25,7 @@ class GpgSignatoryIT extends Specification {
     gpgProcessBuilder.environment().put("GNUPGHOME", gnupgHome.absolutePath)
 
     Process gpgProcess = gpgProcessBuilder.start()
-    IOUtils.copy(getClass().getResourceAsStream("/genkey.gpgbatch"), gpgProcess.getOutputStream())
+    copy(getClass().getResourceAsStream("/genkey.gpgbatch"), gpgProcess.getOutputStream())
     try {
       gpgProcess.getOutputStream().close()
     } catch (IOException e) {
@@ -53,7 +54,7 @@ class GpgSignatoryIT extends Specification {
       Process gpgProcess = gpgProcessBuilder.start()
       gpgProcess.waitFor()
 
-      String gpgOutput = IOUtils.toString(gpgProcess.getInputStream(), "UTF-8")
+      String gpgOutput = toString(gpgProcess.getInputStream())
 
     then:
       gpgOutput.contains('Good signature from "Test Testsson <test@test.org>"')

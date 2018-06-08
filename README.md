@@ -18,11 +18,7 @@ repositories yet.
 Requirements
 ------------
 
-Gradle 4.1 does not support this plugin. [This patch][pull] is necessary for it
-to work.
-
-
-[pull]: https://github.com/gradle/gradle/pull/2724
+Gradle 4.5 or higher necessary.
 
 
 Usage
