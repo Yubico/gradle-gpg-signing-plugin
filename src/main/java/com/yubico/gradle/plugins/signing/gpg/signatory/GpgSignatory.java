@@ -1,11 +1,11 @@
 package com.yubico.gradle.plugins.signing.gpg.signatory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.gradle.plugins.signing.signatory.SignatorySupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +50,7 @@ class GpgSignatory extends SignatorySupport {
             }
 
             Process gpgProcess = gpgProcessBuilder.start();
-            IOUtils.copy(toSign, gpgProcess.getOutputStream());
+            copy(toSign, gpgProcess.getOutputStream());
 
             try {
                 gpgProcess.getOutputStream().close();
@@ -61,10 +61,10 @@ class GpgSignatory extends SignatorySupport {
             gpgProcess.waitFor();
 
             if (gpgProcess.exitValue() == 0) {
-                IOUtils.copy(gpgProcess.getInputStream(), destination);
+                copy(gpgProcess.getInputStream(), destination);
             } else {
-                final String stdout = IOUtils.toString(gpgProcess.getInputStream(), "UTF-8");
-                final String stderr = IOUtils.toString(gpgProcess.getErrorStream(), "UTF-8");
+                final String stdout = toString(gpgProcess.getInputStream());
+                final String stderr = toString(gpgProcess.getErrorStream());
                 logger.error("gpg process failed with exit code: {}.", gpgProcess.exitValue());
                 logger.error("STDOUT: [{}]", stdout);
                 logger.error("STDERR: [{}]", stderr);
@@ -74,6 +74,21 @@ class GpgSignatory extends SignatorySupport {
         } catch (IOException|InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static void copy(InputStream input, OutputStream output) throws IOException {
+        byte[] buffer = new byte[1024];
+        int len = input.read(buffer);
+        while (len != -1) {
+            output.write(buffer, 0, len);
+            len = input.read(buffer);
+        }
+    }
+
+    static String toString(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        copy(inputStream, output);
+        return new String(output.toByteArray(), "UTF-8");
     }
 
 }
