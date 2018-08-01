@@ -1,64 +1,20 @@
 gradle-gpg-signing-plugin
 =========================
 
-[![Build Status](https://travis-ci.org/Yubico/gradle-gpg-signing-plugin.svg?branch=master)](https://travis-ci.org/Yubico/gradle-gpg-signing-plugin)
-[![Coverage Status](https://coveralls.io/repos/github/Yubico/gradle-gpg-signing-plugin/badge.svg)](https://coveralls.io/github/Yubico/gradle-gpg-signing-plugin)
+***UNMAINTAINED:*** _The features provided by this plugin are now included in
+Gradle since [release 4.5][release-notes]. Work on this plugin has therefore
+been abandoned as it is no longer needed._
 
-This plugin sets up Gradle's [Signing plugin][signing] to use `gpg` as the
-signing backend. Thus key management is delegated to `gpg`, which unlocks
-features such as supporting keys stored on smartcards.
+To sign artifacts via `gpg-agent` in Gradle 4.5 and later, use the following
+build script snippet from the [release notes][release-notes]:
 
-NOTE: This is currently a work in progress, and is not released to public
-repositories yet.
-
-
-[signing]: https://docs.gradle.org/current/userguide/signing_plugin.html
-
-
-Requirements
-------------
-
-Gradle 4.1 does not support this plugin. [This patch][pull] is necessary for it
-to work.
-
-
-[pull]: https://github.com/gradle/gradle/pull/2724
-
-
-Usage
------
-
-The plugin is currently in alpha and not available in public repositories just
-yet. For now, you can install it in your build by cloning and building this
-repository, and including the jar in your build classpath like so:
-
-```gradle
-buildscript {
-  dependencies {
-    classpath files('gradle-gpg-signing-plugin-0.1.0.jar')
-  }
+```
+signing {
+    useGpgCmd()
+    sign configurations.archives
 }
-
-apply plugin: com.yubico.gradle.plugins.signing.gpg.GpgSigningPlugin
 ```
 
-The plugin has no settings. If you need to use another signing backend, don't
-apply this plugin.
+Previous contents of this README file are available in Git history.
 
-Set the `signing.keyId` in your user `gradle.properties` as described in the
-[Signing plugin manual][signing-credentials]:
-
-    signing.keyId=5FF0B636
-
-This value is passed through to the `gpg` command-line, and can therefore be
-appended with a `!` to force `gpg` to use a specific subkey if needed.
-
-That's it! Now just follow the instructions for the [Signing plugin][signing],
-except ignoring setting `signing.password` and `signing.secretKeyRingFile`, and
-you should be good to go. If this worked for you, please give a thumbs up in #1
-to help us get a sense of how well this works. If it does not work, please [open
-an issue][new-issue] and tell us!
-
-
-[new-issue]: https://github.com/Yubico/gradle-gpg-signing-plugin/issues/new
-[signing-credentials]: https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials
+[release-notes]: https://docs.gradle.org/4.5/release-notes.html#signing-artifacts-with-gpg-agent
